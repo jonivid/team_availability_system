@@ -9,8 +9,7 @@ const ErrorType = require("../errors/error-type");
 const login = async (loginDetails) => {
   try {
     const password = loginDetails.password;
-    loginDetails.password = SHA256.hex(password); // Ensure password is hashed correctly
-
+    loginDetails.password = SHA256.hex(password); 
     const loginResult = await userDb.login(loginDetails);
     if (loginResult.success) {
       const token = jwt.sign(
@@ -19,10 +18,9 @@ const login = async (loginDetails) => {
           username: loginDetails.username,
           firstName: loginResult.user.firstName,
           lastName: loginResult.user.lastName,
-          status: loginResult.user.status,
         },
         `${process.env.JWT_SECRET}`,
-        { expiresIn: "1h" }, // Optional: Token expiration time
+        { expiresIn: "1h" },
       );
 
       return {
@@ -34,29 +32,60 @@ const login = async (loginDetails) => {
         token,
       };
     } else {
-      throw new ServerError(ErrorType.UNAUTHORIZED);
+      throw new ServerError(ErrorType.UNAUTHORIZED, loginResult.message);
     }
   } catch (error) {
-    logger.error(error);
-    throw new ServerError(ErrorType.INTERNAL_SERVER_ERROR, error.message);
+    if (error.errorType === ErrorType.UNAUTHORIZED) {
+      throw error;
+    } else {
+      logger.error(error);
+      throw new ServerError(ErrorType.INTERNAL_SERVER_ERROR, error.message);
+    }
   }
 };
 
-const getAllUsers = async ({ id }) => {
+const getAllUsers = async () => {
   try {
-    return userDb.getAllUsers({ id });
+    return userDb.getAllUsers();
   } catch (error) {
     logger.error(error);
     throw new ServerError(ErrorType.INTERNAL_SERVER_ERROR, error.message);
   }
 };
-const getUsersByValue = async ({ statusId, name, id }) => {
+const getUsersByValue = async ({ statusId, name }) => {
   try {
-    return userDb.getUsersByValue({ statusId, name, id });
+    return userDb.getUsersByValue({ statusId, name });
   } catch (error) {
     logger.error(error);
     throw new ServerError(ErrorType.INTERNAL_SERVER_ERROR, error.message);
   }
 };
 
-module.exports = { login, getAllUsers, getUsersByValue };
+const updateUserStatusService = async (userId, statusId) => {
+  try {
+    if (!userId || !statusId) {
+      throw new ServerError(
+        ErrorType.BAD_REQUEST,
+        "Missing userId or statusId",
+      );
+    }
+    const user = await userDb.getUserById(userId);
+    if (!user) {
+      throw new ServerError(ErrorType.NOT_FOUND, "User not found");
+    }
+
+    const updatedUser = await userDb.updateUserStatus(userId, statusId);
+
+    return updatedUser;
+  } catch (error) {
+    logger.error(error);
+    throw new ServerError(ErrorType.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+module.exports = {
+  login,
+  getAllUsers,
+  getUsersByValue,
+  updateUserStatusService,
+};

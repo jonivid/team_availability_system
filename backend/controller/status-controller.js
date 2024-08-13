@@ -6,7 +6,6 @@ const router = require("express").Router();
 router.get("/", verifyToken, async (req, res, next) => {
   try {
     const statusList = await statusService.getStatusList();
-    console.log(statusList);
     res.status(200).json(statusList);
   } catch (e) {
     next(e);
