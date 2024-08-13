@@ -99,19 +99,24 @@ Copy code
 # Base URL of the backend API
 VITE_REST_API=http://localhost:5173
 ```
-Environment Variable Details
-REST_PORT: The port on which your backend server will run. The default is set to 5173, but you can change this to any available port on your machine.
-DB_HOST: The hostname or IP address of your MySQL database. Typically, this is localhost for local development.
-DB_USER: The username for connecting to your MySQL database. If you use a custom username for MySQL, replace root with your username.
-DB_PASS: The password associated with the MySQL user specified in DB_USER. Replace your_password_here with your actual MySQL password.
-DB_NAME: The name of the MySQL database where your application data will be stored. Replace pub_plus with your actual database name if different.
-JWT_SECRET: A secret key used for signing JSON Web Tokens (JWT) to secure API endpoints. Replace your_unique_jwt_secret_here with a secure and unique string that you generate. This should be kept secret and not shared publicly.
-VITE_REST_API: The base URL for your frontend to connect to the backend API. This is typically set to http://localhost:5173, assuming your backend is running on localhost and port 5173.
-Notes:
-Security: Ensure that the .env files are added to your .gitignore file to prevent them from being pushed to version control, as they contain sensitive information.
-Customization: Adjust the values in these .env files to match your own development environment and security practices.
-JWT Secret: For the JWT_SECRET, it's recommended to generate a strong, random string. You can use tools like openssl rand -base64 32 to generate a secure secret.
+### **Environment Variable Details**
+
+- **REST_PORT:** The port on which your backend server will run. The default is set to `8001`, but you can change this to any available port on your machine.
+- **DB_HOST:** The hostname or IP address of your MySQL database. Typically, this is `localhost` for local development.
+- **DB_USER:** The username for connecting to your MySQL database. If you use a custom username for MySQL, replace `root` with your username.
+- **DB_PASS:** The password associated with the MySQL user specified in `DB_USER`. Replace `your_password_here` with your actual MySQL password.
+- **DB_NAME:** The name of the MySQL database where your application data will be stored. Replace `pub_plus` with your actual database name if different.
+- **JWT_SECRET:** A secret key used for signing JSON Web Tokens (JWT) to secure API endpoints. Replace `your_unique_jwt_secret_here` with a secure and unique string that you generate. This should be kept secret and not shared publicly.
+- **VITE_REST_API:** The base URL for your frontend to connect to the backend API. This is typically set to `http://localhost:8001`, assuming your backend is running on `localhost` and port `8001`.
+
+### **Notes:**
+
+- **Security:** Ensure that the `.env` files are added to your `.gitignore` file to prevent them from being pushed to version control, as they contain sensitive information.
+- **Customization:** Adjust the values in these `.env` files to match your own development environment and security practices.
+- **JWT Secret:** For the `JWT_SECRET`, it's recommended to generate a strong, random string. You can use tools like `openssl rand -base64 32` to generate a secure secret.
+
 Once these files are set up, you can proceed to start the backend and frontend servers as described in the following sections.
+
 
 ## **6. Running the Project**
 
