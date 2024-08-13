@@ -12,6 +12,33 @@ The Workers Management System allows users to manage worker statuses, search for
 - **Search and Filter**: Efficiently search for and filter workers based on status and other criteria using debounced inputs.
 - **Error Handling**: Robust error handling across the application, with real-time feedback to the user.
 
+## **3. Database Setup**
+
+The database for this project is provided as an SQL dump file. The dump includes all necessary tables, relationships, and sample data required to run the application.
+
+### **Importing the SQL Dump**
+
+1. **Locate the SQL Dump:**
+   - The SQL dump file `pub_plus_dump.sql` is located in the `database/` directory of this project.
+
+2. **Create a New Database:**
+   - Open your MySQL client and create a new database:
+     ```sql
+     CREATE DATABASE pub_plus_db;
+     ```
+
+3. **Import the SQL Dump:**
+   - Import the SQL dump into your new database using the command:
+     ```bash
+     mysql -u username -p pub_plus_db < ./database/pub_plus_dump.sql
+     ```
+   - Replace `username` with your MySQL username.
+
+4. **Verify the Import:**
+   - After the import is complete, verify that the tables and data have been correctly loaded by running:
+     ```sql
+     SHOW TABLES IN pub_plus_db;
+     ```
 ## **4. Installation**
 
 ### **Prerequisites**
@@ -42,8 +69,51 @@ The Workers Management System allows users to manage worker statuses, search for
    npm install
    # or
    yarn install
+## **5. Environment Variables**
 
-  ## **6. Running the Project**
+Both the frontend and backend of this project require environment variables to be configured. You need to create `.env` files in the root of the `frontend` and `backend` directories. Below are the details for setting up these files.
+
+### **Backend .env**
+
+Create a `.env` file in the `backend` directory with the following content:
+
+```bash
+# Port on which the backend server will run
+REST_PORT=8001
+
+# MySQL database connection details
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=your_password_here
+DB_NAME=pub_plus_db
+
+# Secret key for signing JWT tokens
+JWT_SECRET=your_unique_jwt_secret_here
+```
+Frontend .env
+Create a .env file in the frontend directory with the following content:
+
+bash
+Copy code
+```bash
+# Base URL of the backend API
+VITE_REST_API=http://localhost:5173
+```
+Environment Variable Details
+REST_PORT: The port on which your backend server will run. The default is set to 5173, but you can change this to any available port on your machine.
+DB_HOST: The hostname or IP address of your MySQL database. Typically, this is localhost for local development.
+DB_USER: The username for connecting to your MySQL database. If you use a custom username for MySQL, replace root with your username.
+DB_PASS: The password associated with the MySQL user specified in DB_USER. Replace your_password_here with your actual MySQL password.
+DB_NAME: The name of the MySQL database where your application data will be stored. Replace pub_plus with your actual database name if different.
+JWT_SECRET: A secret key used for signing JSON Web Tokens (JWT) to secure API endpoints. Replace your_unique_jwt_secret_here with a secure and unique string that you generate. This should be kept secret and not shared publicly.
+VITE_REST_API: The base URL for your frontend to connect to the backend API. This is typically set to http://localhost:5173, assuming your backend is running on localhost and port 5173.
+Notes:
+Security: Ensure that the .env files are added to your .gitignore file to prevent them from being pushed to version control, as they contain sensitive information.
+Customization: Adjust the values in these .env files to match your own development environment and security practices.
+JWT Secret: For the JWT_SECRET, it's recommended to generate a strong, random string. You can use tools like openssl rand -base64 32 to generate a secure secret.
+Once these files are set up, you can proceed to start the backend and frontend servers as described in the following sections.
+
+## **6. Running the Project**
 
 ### **Running the Backend**
 
