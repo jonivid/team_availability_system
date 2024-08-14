@@ -24,20 +24,20 @@ The database for this project is provided as an SQL dump file. The dump includes
 2. **Create a New Database:**
    - Open your MySQL client and create a new database:
      ```sql
-     CREATE DATABASE pub_plus_db;
+     CREATE DATABASE pub_plus;
      ```
 
 3. **Import the SQL Dump:**
    - Import the SQL dump into your new database using the command:
      ```bash
-     mysql -u username -p pub_plus_db < ./database/pub_plus_dump.sql
+     mysql -u username -p pub_plus < ./database/pub_plus_dump.sql
      ```
    - Replace `username` with your MySQL username.
 
 4. **Verify the Import:**
    - After the import is complete, verify that the tables and data have been correctly loaded by running:
      ```sql
-     SHOW TABLES IN pub_plus_db;
+     SHOW TABLES IN pub_plus;
      ```
 ## **4. Installation**
 
@@ -85,7 +85,7 @@ REST_PORT=8001
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=your_password_here
-DB_NAME=pub_plus_db
+DB_NAME=pub_plus
 
 # Secret key for signing JWT tokens
 JWT_SECRET=your_unique_jwt_secret_here

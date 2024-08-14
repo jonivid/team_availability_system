@@ -51,7 +51,9 @@ CREATE TABLE `status` (
   `id` int NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'Working',
   `color_id` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_status_color` (`color_id`),
+  CONSTRAINT `fk_status_color` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,7 +83,9 @@ CREATE TABLE `user` (
   `status_id` int NOT NULL DEFAULT '1',
   `status_updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `iduser_UNIQUE` (`id`)
+  UNIQUE KEY `iduser_UNIQUE` (`id`),
+  KEY `fk_user_status` (`status_id`),
+  CONSTRAINT `fk_user_status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -91,7 +95,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'yvidal','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','yehonatan','vidal',3,'2024-08-13 09:57:20'),(2,'acohen','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','avi','cohen',1,'2024-08-09 07:41:41'),(3,'dtesler','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','diana','tesler',1,'2024-08-09 07:41:41'),(4,'ymoriss','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','yossi','morris',1,'2024-08-09 07:41:41'),(5,'drodin','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','danny','rodin',1,'2024-08-09 07:41:41'),(6,'eking','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','efi','king',2,'2024-08-09 07:42:28');
+INSERT INTO `user` VALUES (1,'yvidal','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','yehonatan','vidal',1,'2024-08-14 13:52:20'),(2,'acohen','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','avi','cohen',1,'2024-08-09 07:41:41'),(3,'dtesler','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','diana','tesler',1,'2024-08-09 07:41:41'),(4,'ymoriss','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','yossi','morris',1,'2024-08-09 07:41:41'),(5,'drodin','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','danny','rodin',1,'2024-08-09 07:41:41'),(6,'eking','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','efi','king',2,'2024-08-09 07:42:28');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -104,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-13 13:38:44
+-- Dump completed on 2024-08-14 17:46:36
