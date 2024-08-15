@@ -5,6 +5,7 @@ This monorepo contains both the frontend and backend components for a Workers Ma
 ## **1. Project Overview**
 
 The Workers Management System allows users to manage worker statuses, search for contacts, and update user information through an interactive React frontend. The backend provides the necessary APIs to fetch, update, and manage data securely.
+
 ## **2. Features**
 
 - **User Authentication**: Secure login system with session management.
@@ -19,26 +20,30 @@ The database for this project is provided as an SQL dump file. The dump includes
 ### **Importing the SQL Dump**
 
 1. **Locate the SQL Dump:**
+
    - The SQL dump file `pub_plus_dump.sql` is located in the `database/` directory of this project.
 
 2. **Create a New Database:**
+
    - Open your MySQL client and create a new database:
      ```sql
-     CREATE DATABASE pub_plus;
+     CREATE DATABASE pub_plus_db;
      ```
 
 3. **Import the SQL Dump:**
+
    - Import the SQL dump into your new database using the command:
      ```bash
-     mysql -u username -p pub_plus < ./database/pub_plus_dump.sql
+     mysql -u username -p pub_plus_db < ./database/pub_plus_dump.sql
      ```
    - Replace `username` with your MySQL username.
 
 4. **Verify the Import:**
    - After the import is complete, verify that the tables and data have been correctly loaded by running:
      ```sql
-     SHOW TABLES IN pub_plus;
+     SHOW TABLES IN pub_plus_db;
      ```
+
 ## **4. Installation**
 
 ### **Prerequisites**
@@ -69,6 +74,8 @@ The database for this project is provided as an SQL dump file. The dump includes
    npm install
    # or
    yarn install
+   ```
+
 ## **5. Environment Variables**
 
 Both the frontend and backend of this project require environment variables to be configured. You need to create `.env` files in the root of the `frontend` and `backend` directories. Below are the details for setting up these files.
@@ -85,20 +92,23 @@ REST_PORT=8001
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=your_password_here
-DB_NAME=pub_plus
+DB_NAME=pub_plus_db
 
 # Secret key for signing JWT tokens
 JWT_SECRET=your_unique_jwt_secret_here
 ```
+
 Frontend .env
 Create a .env file in the frontend directory with the following content:
 
 bash
 Copy code
+
 ```bash
 # Base URL of the backend API
 VITE_REST_API=http://localhost:5173
 ```
+
 ### **Environment Variable Details**
 
 - **REST_PORT:** The port on which your backend server will run. The default is set to `8001`, but you can change this to any available port on your machine.
@@ -116,7 +126,6 @@ VITE_REST_API=http://localhost:5173
 - **JWT Secret:** For the `JWT_SECRET`, it's recommended to generate a strong, random string. You can use tools like `openssl rand -base64 32` to generate a secure secret.
 
 Once these files are set up, you can proceed to start the backend and frontend servers as described in the following sections.
-
 
 ## **6. Running the Project**
 
@@ -147,6 +156,18 @@ The frontend should now be running on `http://localhost:5173`.
 ### **Navigating the Application**
 
 - **Login Page**: The initial page where users can log in using their credentials.
+
+  ### Test User Login Information
+
+  For testing purposes, the following login credentials can be used:
+
+  - **Username:** yvidal | **Password:** 123456
+  - **Username:** acohen | **Password:** 123456
+  - **Username:** dtesler | **Password:** 123456
+  - **Username:** ymoriss | **Password:** 123456
+  - **Username:** drodin | **Password:** 123456
+  - **Username:** eking | **Password:** 123456
+
 - **Workers Status Page**: After logging in, users are redirected here, where they can view and update their status and search/filter through other workers.
 
 ## **8. Frontend Components**
