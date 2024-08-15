@@ -40,7 +40,7 @@ const UserListCard = ({ usersList, userDetails }) => {
                       } ${
                         u.lastName[0].toUpperCase() +
                         u.lastName.slice(1).toLowerCase()
-                      }`}
+                      } (${u.status})`}
                     />
                     <IconButton aria-label="status" sx={{ color: u.color }}>
                       <CircleIcon />
