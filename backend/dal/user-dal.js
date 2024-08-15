@@ -2,16 +2,17 @@ const db = require("../utils/connection-wrapper");
 const logger = require("../utils/logger");
 const ServerError = require("../errors/server-error");
 const ErrorType = require("../errors/error-type");
+const dbName = process.env.DB_NAME;
 
 const login = async (userLoggedDetails) => {
   try {
     const { username, password } = userLoggedDetails;
     const parameters = [username, password];
-    const sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status,s.id as statusId, c.color as statusColor
-              FROM user u
-              INNER JOIN status s
+    const sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status, s.id as statusId, c.color as statusColor
+              FROM ${dbName}.user u
+              INNER JOIN ${dbName}.status s
               ON u.status_id = s.id
-              INNER JOIN color c
+              INNER JOIN ${dbName}.color c
               ON c.id = s.color_id
               WHERE u.user_name = ? AND u.password = ?;`;
 
@@ -22,7 +23,7 @@ const login = async (userLoggedDetails) => {
     // Return a failure without throwing an exception
     return { success: false, message: "Invalid username or password" };
   } catch (error) {
-    logger.error(`Error: dal_login: username:${username}, ${error.message}`);
+    logger.error(`Error: dal_login:  ${error.message}`);
     throw new ServerError(
       ErrorType.INTERNAL_SERVER_ERROR,
       "Database query failed",
@@ -32,11 +33,11 @@ const login = async (userLoggedDetails) => {
 
 const getAllUsers = async () => {
   try {
-    const sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status,s.id AS statusId, c.color
-              FROM user u
-              INNER JOIN status s
+    const sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status, s.id AS statusId, c.color
+              FROM ${dbName}.user u
+              INNER JOIN ${dbName}.status s
               ON u.status_id = s.id
-              INNER JOIN color c
+              INNER JOIN ${dbName}.color c
               ON c.id = s.color_id;`;
     return await db.execute(sql);
   } catch (error) {
@@ -47,16 +48,17 @@ const getAllUsers = async () => {
     );
   }
 };
-const getUsersByValue = async ({ statusId, name}) => {
+
+const getUsersByValue = async ({ statusId, name }) => {
   try {
     // Start building the SQL query
     const statusIds = statusId ? statusId.split(",").map(Number) : null;
 
     let sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status, s.id AS statusId, c.color
-              FROM user u
-              INNER JOIN status s
+              FROM ${dbName}.user u
+              INNER JOIN ${dbName}.status s
               ON u.status_id = s.id
-              INNER JOIN color c
+              INNER JOIN ${dbName}.color c
               ON c.id = s.color_id`;
 
     // Array to hold the query parameters
@@ -87,7 +89,7 @@ const getUsersByValue = async ({ statusId, name}) => {
 
 const updateUserStatus = async (userId, statusId) => {
   try {
-    const sql = `UPDATE user SET status_id = ? WHERE id = ?`;
+    const sql = `UPDATE ${dbName}.user SET status_id = ? WHERE id = ?`;
     const parameters = [statusId, userId];
 
     const result = await db.executeWithParameters(sql, parameters);
@@ -104,10 +106,10 @@ const updateUserStatus = async (userId, statusId) => {
 const getUserById = async (userId) => {
   try {
     const sql = `SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, s.status, s.id AS statusId, c.color
-              FROM user u
-              INNER JOIN status s
+              FROM ${dbName}.user u
+              INNER JOIN ${dbName}.status s
               ON u.status_id = s.id
-              INNER JOIN color c
+              INNER JOIN ${dbName}.color c
               ON c.id = s.color_id
               WHERE u.id = ?`;
     const params = [userId];
