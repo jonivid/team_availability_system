@@ -106,7 +106,7 @@ Copy code
 
 ```bash
 # Base URL of the backend API
-VITE_REST_API=http://localhost:5173
+VITE_REST_API=http://localhost:8001
 ```
 
 ### **Environment Variable Details**
